@@ -196,13 +196,20 @@ class Monitor(object):
                 website_config['component_id'],
                 int(monitor.get('status'))
             )
-
-        metric = cachet.set_data_metrics(
-            monitor.get('custom_uptime_ratio'),
-            int(time.time()),
-            website_config['metric_id']
-        )
-        print('Metric created: {0}'.format(metric))
+        if 'response_times' in website_config:
+            metric = cachet.set_data_metrics(
+                monitor.get('average_response_time'),
+                int(time.time()),
+                website_config['metric_id']
+            )
+            print('Metric created: {0}'.format(metric))
+        else:
+            metric = cachet.set_data_metrics(
+                monitor.get('custom_uptime_ratio'),
+                int(time.time()),
+                website_config['metric_id']
+            )
+            print('Metric created: {0}'.format(metric))
 
     def update(self):
         """ Update all monitors uptime and status.
@@ -246,6 +253,10 @@ if __name__ == "__main__":
             if 'ComponentId' in CONFIG[element]:
                 MONITOR_DICT[element].update({
                     'component_id': CONFIG[element]['ComponentId'],
+                })
+            if 'responseTimes' in CONFIG[element]:
+                MONITOR_DICT[element].update({
+                    'response_times': CONFIG[element]['responseTimes'],
                 })
 
     MONITOR = Monitor(monitor_list=MONITOR_DICT, api_key=uptime_robot_api_key)

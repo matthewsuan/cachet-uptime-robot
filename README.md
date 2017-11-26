@@ -28,6 +28,7 @@ ComponentId = 1
 * `CachetUrl`: URL of the API of the status page you want to show the site availability in.
 * `MetricId`: Id of the Cachet metric with site availability.
 * `ComponentId`: (Optional) Id of the component you want to update on each check.
+* `ResponseTimes`: (Optional) Set to 1 of you want register response times metrics instead of the defaut uptime value
 
 ### Usage
 
